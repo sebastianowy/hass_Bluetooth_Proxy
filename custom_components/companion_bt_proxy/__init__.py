@@ -19,14 +19,19 @@ CONFIG_SCHEMA = vol.Schema({
 }, extra=vol.ALLOW_EXTRA)
 
 async def _async_handle_webhook(hass, webhook_id, request):
+    _LOGGER.warning(f"LEWDEV _async_handle_webhook Incoming JSON in Webhook: {request.text}")
     try:
         message = await request.json()
     except ValueError:
-        _LOGGER.warning(f"Invalid JSON in Webhook")
         return json_response([])
-    _LOGGER.debug(f"JSON: {message}")
-    if scanner := hass.data[DOMAIN]["scanners"].get(hass.data[DOMAIN]["webhooks"].get(webhook_id)):
+    scanners = hass.data[DOMAIN]["scanners"]
+    webhooks = hass.data[DOMAIN]["webhooks"]
+    webhook_ = webhooks.get(webhook_id)
+    scanner = scanners.get(webhook_)
+
+    if scanner:
         for item in message:
+            _LOGGER.warning(f"LEWDEV _async_handle_webhook item: {item}")
             await scanner.async_process_json(item)
         await scanner.async_update_sensors()
     else:

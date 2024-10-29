@@ -19,10 +19,11 @@ CONFIG_SCHEMA = vol.Schema({
 }, extra=vol.ALLOW_EXTRA)
 
 async def _async_handle_webhook(hass, webhook_id, request):
-    _LOGGER.warning(f"LEWDEV _async_handle_webhook Incoming JSON in Webhook: {request.text}")
     try:
         message = await request.json()
-    except ValueError:
+        _LOGGER.warning(f"#LEWDEV [_async_handle_webhook] message: {message}")
+    except ValueError as e:
+#         _LOGGER.error(f"LEWDEV _async_handle_webhook Incoming JSON in Webhook error: {e}")
         return json_response([])
     scanners = hass.data[DOMAIN]["scanners"]
     webhooks = hass.data[DOMAIN]["webhooks"]
@@ -31,11 +32,12 @@ async def _async_handle_webhook(hass, webhook_id, request):
 
     if scanner:
         for item in message:
-            _LOGGER.warning(f"LEWDEV _async_handle_webhook item: {item}")
+#             _LOGGER.warning(f"LEWDEV _async_handle_webhook item: {item}")
             await scanner.async_process_json(item)
         await scanner.async_update_sensors()
     else:
-        _LOGGER.warning(f"No scanner registered for webhook {webhook_id}")
+        True
+#         _LOGGER.warning(f"No scanner registered for webhook {webhook_id}")
     return json_response([])
 
 async def async_setup_entry(hass: HomeAssistant, entry):

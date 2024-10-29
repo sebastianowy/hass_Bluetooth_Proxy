@@ -22,19 +22,10 @@ class CompanionBLEScanner(bluetooth.BaseHaRemoteScanner):
         target_key = "0000fe95-0000-1000-8000-00805f9b34fb"
         is_ptx = target_key in service_data
         if is_ptx:
-            _LOGGER.warning(f"LEWDEV async_process_json DEVID PTX BUTTON async_process_json")
-            _LOGGER.warning(f"LEWDEV async_process_jsonPTX SERVICE: {service_data.get(target_key,None)}")
-            _LOGGER.warning(f"LEWDEV async_process_json DETAILS: {data} -> {service_data} -> {m_data}")
-            # first_service = service_data[target_key]
-            # _LOGGER.warning(f"LEW DEVID original service: {first_service}")
-            # device_id = first_service[2] + (first_service[3] << 8)
-            # _LOGGER.warning(f"LEW DEVID original device_id: {device_id}")
-
-            # service_data[target_key] = bytes.fromhex('305abb38008ae24838c1a408')
-            # first_service=service_data['0000fe95-0000-1000-8000-00805f9b34fb']
-            # _LOGGER.warning(f"LEW DEVID mod first_service: {first_service}")
-            # device_id = first_service[2] + (first_service[3] << 8)
-            # _LOGGER.warning(f"LEW DEVID mod device_id: {device_id}")
+            True
+#             _LOGGER.warning(f"LEWDEV async_process_json DEVID PTX BUTTON async_process_json")
+#             _LOGGER.warning(f"LEWDEV async_process_jsonPTX SERVICE: {service_data.get(target_key,None)}")
+#             _LOGGER.warning(f"LEWDEV async_process_json DETAILS: {data} -> {service_data} -> {m_data}")
 
 
         
@@ -51,10 +42,11 @@ class CompanionBLEScanner(bluetooth.BaseHaRemoteScanner):
         )
 
         if is_ptx:
-            _LOGGER.warning(f"LEWDEV async_process_json _async_on_advertisement successfully called for name {name}")
+            True
+#             _LOGGER.warning(f"LEWDEV async_process_json _async_on_advertisement successfully called for name {name}")
 
     async def async_update_sensors(self):
-        _LOGGER.warning(f"LEWDEV async_update_sensors sensors length {self._sensors}")
+#         _LOGGER.warning(f"LEWDEV async_update_sensors sensors length {self._sensors}")
         for s in self._sensors:
             await s.async_on_scanner_update(self)
 

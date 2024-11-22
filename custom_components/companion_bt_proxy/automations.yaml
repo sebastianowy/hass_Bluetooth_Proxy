@@ -1,0 +1,124 @@
+- id: '1732294776695'
+  alias: PTX single
+  description: ''
+  trigger:
+    - platform: state
+      entity_id:
+        - event.wireless_switch_e28a_button
+      attribute: event_type
+      to: press
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+      from: initial
+  condition: []
+  action:
+    - type: toggle
+      device_id: cfa3afa1494791e83bd3e6ff53ef8b37
+      entity_id: 4f9086ac295b43df325e827a556bda3c
+      domain: light
+    - delay: '00:00:00.5'
+    - service: python_script.set_entity_attributes
+      data:
+        entity_id: event.wireless_switch_e28a_button
+        state: initial
+        attributes:
+          event_types:
+            - press
+            - double_press
+            - long_press
+          event_type: initial
+          device_class: button
+          friendly_name: Przycisk
+  mode: single
+- id: '1732303663086'
+  alias: PTX double
+  description: ''
+  trigger:
+    - platform: state
+      entity_id:
+        - event.wireless_switch_e28a_button
+      attribute: event_type
+      to: double_press
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+      from: initial
+  condition: []
+  action:
+    - type: toggle
+      device_id: b5184b573ebd3cc19bbe64668cbb9a95
+      entity_id: a24406770f407b90e73bcd19f9b577a2
+      domain: switch
+    - delay: '00:00:00.5'
+    - service: python_script.set_entity_attributes
+      data:
+        entity_id: event.wireless_switch_e28a_button
+        state: initial
+        attributes:
+          event_types:
+            - press
+            - double_press
+            - long_press
+          event_type: initial
+          device_class: button
+          friendly_name: Przycisk
+  mode: single
+- id: '1732303762735'
+  alias: PTX hold
+  description: ''
+  trigger:
+    - platform: state
+      entity_id:
+        - event.wireless_switch_e28a_button
+      attribute: event_type
+      to: long_press
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+      from: initial
+  condition: []
+  action:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: switch.chuangmi_029a02_dbb0_switch_status
+              state: 'on'
+            - condition: state
+              entity_id: switch.chuangmi_029a02_2098_switch_status
+              state: 'on'
+          sequence:
+            - type: turn_off
+              device_id: ef7b16ec433b1424a914b5f500eae1f6
+              entity_id: switch.chuangmi_029a02_dbb0_switch_status
+              domain: switch
+            - type: turn_off
+              device_id: 72b547b2899182cbfe080ec35b326786
+              entity_id: switch.chuangmi_029a02_2098_switch_status
+              domain: switch
+      default:
+        - type: turn_on
+          device_id: ef7b16ec433b1424a914b5f500eae1f6
+          entity_id: switch.chuangmi_029a02_dbb0_switch_status
+          domain: switch
+        - type: turn_on
+          device_id: 72b547b2899182cbfe080ec35b326786
+          entity_id: switch.chuangmi_029a02_2098_switch_status
+          domain: switch
+    - delay: '00:00:00.5'
+    - service: python_script.set_entity_attributes
+      data:
+        entity_id: event.wireless_switch_e28a_button
+        state: initial
+        attributes:
+          event_types:
+            - press
+            - double_press
+            - long_press
+          event_type: initial
+          device_class: button
+          friendly_name: Przycisk
+  mode: single

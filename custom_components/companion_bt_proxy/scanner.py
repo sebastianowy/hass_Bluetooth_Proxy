@@ -21,14 +21,7 @@ class CompanionBLEScanner(bluetooth.BaseHaRemoteScanner):
         
         target_key = "0000fe95-0000-1000-8000-00805f9b34fb"
         is_ptx = target_key in service_data
-        if is_ptx:
-            True
-#             _LOGGER.warning(f"LEWDEV async_process_json DEVID PTX BUTTON async_process_json")
-#             _LOGGER.warning(f"LEWDEV async_process_jsonPTX SERVICE: {service_data.get(target_key,None)}")
-#             _LOGGER.warning(f"LEWDEV async_process_json DETAILS: {data} -> {service_data} -> {m_data}")
 
-
-        
         self._async_on_advertisement(
             address=data["address"],
             rssi=data.get("rssi", 0),
@@ -41,12 +34,7 @@ class CompanionBLEScanner(bluetooth.BaseHaRemoteScanner):
             advertisement_monotonic_time=data.get("timestamp"),
         )
 
-        if is_ptx:
-            True
-#             _LOGGER.warning(f"LEWDEV async_process_json _async_on_advertisement successfully called for name {name}")
-
     async def async_update_sensors(self):
-#         _LOGGER.warning(f"LEWDEV async_update_sensors sensors length {self._sensors}")
         for s in self._sensors:
             await s.async_on_scanner_update(self)
 
